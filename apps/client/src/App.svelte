@@ -1,17 +1,21 @@
 <script lang="ts">
   import svelteLogo from "./assets/svelte.svg";
   import viteLogo from "/vite.svg";
-  import { onMount } from "svelte";
-
-  let response: string = "";
-
-  onMount(() => {
-    fetch("/api")
-      .then((res) => res.text())
-      .then((data) => {
-        response = data;
-      });
-  });
+  let state: string = "";
+  const handleLogin = () => {
+    fetch("api/auth/login", {
+      method: "POST",
+    }).then((res) => res.json()).then((data) => {
+      state = data.msg;
+    })
+  }
+  const handleSignUp = () => {
+    fetch("api/auth/signup", {
+      method: "POST",
+    }).then((res) => res.json()).then((data) => {
+      state = data.msg;
+    })
+  }
 </script>
 
 <main>
@@ -24,23 +28,22 @@
     </a>
   </div>
   <h1>Vite + Svelte</h1>
-
-  <div class="card">
-    {response}
+  <span>{state}</span>
+  <div class="buttons">
+    <button type="button" on:click={handleLogin}>Login</button>
+    <button type="button" on:click={handleSignUp}>SignUp</button>
   </div>
-
-  <p>
-    Check out <a
-      href="https://github.com/sveltejs/kit#readme"
-      target="_blank"
-      rel="noreferrer">SvelteKit</a
-    >, the official Svelte app framework powered by Vite!
-  </p>
-
-  <p class="read-the-docs">Click on the Vite and Svelte logos to learn more</p>
+ 
 </main>
 
 <style>
+  .buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    padding-top: 20px;
+  }
   .logo {
     height: 6em;
     padding: 1.5em;
