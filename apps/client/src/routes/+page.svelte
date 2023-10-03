@@ -1,10 +1,9 @@
 <script lang="ts">
-  import { afterUpdate } from "svelte";
   import LoginForm from "../components/LoginForm.svelte";
   import SignupForm from "../components/SignupForm.svelte";
   import type { Switch } from "../types";
-
   let toggle: Switch = "SIGNUP";
+  
 </script>
 
 <svelte:head>

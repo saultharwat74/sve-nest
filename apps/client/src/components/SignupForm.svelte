@@ -1,6 +1,7 @@
 <script lang="ts">
   import { createForm } from "svelte-forms-lib";
   import { signupSchema } from "../schema";
+  import { signUp } from "../stores";
 
   const { form, handleChange, handleSubmit, errors } = createForm({
     initialValues: {
@@ -11,18 +12,7 @@
       lastName: "",
     },
     onSubmit(values) {
-      fetch("/api/auth/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: values.email,
-          password: values.password,
-          firstName: values.firstName,
-          lastName: values.lastName,
-        }),
-      });
+      signUp(values);
     },
     validationSchema: signupSchema,
   });

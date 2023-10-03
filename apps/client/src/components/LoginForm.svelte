@@ -1,8 +1,8 @@
 <script lang="ts">
   import { createForm } from "svelte-forms-lib";
   import { loginSchema } from "../schema";
-  import { auth } from "../stores/auth";
-  import { redirect } from "@sveltejs/kit";
+  import { auth, login } from "../stores";
+  import { goto } from "$app/navigation";
 
   const { form, handleChange, handleSubmit, errors } = createForm({
     initialValues: {
@@ -10,27 +10,7 @@
       password: "",
     },
     onSubmit(values) {
-      fetch("/api/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: values.email,
-          password: values.password,
-        }),
-      })
-        .then((res) => res.json())
-        .then((res) => {
-          auth.set({
-            email: res.email,
-            token: res.token,
-            firstName: res.firstName,
-            lastName: res.lastName,
-            isLoggedIn: true,
-          });
-
-        });
+      login(values);
     },
     validationSchema: loginSchema,
   });
